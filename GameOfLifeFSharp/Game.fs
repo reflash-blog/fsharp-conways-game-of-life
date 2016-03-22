@@ -13,14 +13,14 @@ type Game =
     static member Step(states : int [][]) : int[][] = 
         [| for x in 0..states.Length - 1 do 
            yield [| for y in 0..states.[0].Length - 1 do  
-                         let neighbors = Game.NeighborsAt(x,y,states)
-                         yield System.Convert.ToInt32(neighbors = 3 ||
-                                                     (neighbors = 2 && 
-                                                      System.Convert.ToBoolean(states.[x].[y])))  
+                         match Game.NeighborsAt(x,y,states) with 
+                          | 3 -> yield 1
+                          | 2 -> yield states.[x].[y]
+                          | _ -> yield 0
                    |] 
           |]
 
-    static member IsGameOver(states : int[][]) : bool =
+    static member IsGameOver (states : int[][]) : bool =
         [for record in states do 
          for state in record do 
          if state = 1 
